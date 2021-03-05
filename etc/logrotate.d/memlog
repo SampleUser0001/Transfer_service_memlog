@@ -1,0 +1,14 @@
+/tmp/memlog.txt { # 対象のログファイル
+    ifempty            # ログファイルが空でもローテーションする
+    dateformat .%Y%m%d # dateフォーマットを任意のものに変更する
+    missingok          # ログファイルがなくてもエラーを出さない
+    compress           # 圧縮する
+    daily              # 毎日ローテートする
+    rotate 10
+    su root root
+    postrotate         # ローテート後にsyslogを再起動
+	systemctl stop memlog
+        /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
+	systemctl start memlog
+    endscript
+}

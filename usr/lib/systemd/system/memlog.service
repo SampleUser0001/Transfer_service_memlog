@@ -1,0 +1,13 @@
+[Unit]
+Description=Surveillance memory
+# After=network-online.target
+
+[Service]
+ExecStart=sh /opt/memlog.sh
+ExecStop=/bin/kill `cat /var/run/memlog.pid 2> /dev/null` 2> /dev/null || true
+# ExecReload=/var/myapp/bin/reload.sh
+Restart=no
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
