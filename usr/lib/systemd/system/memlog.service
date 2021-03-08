@@ -4,10 +4,11 @@ Description=Surveillance memory
 
 [Service]
 ExecStart=sh /opt/memlog.sh
-ExecStop=/bin/kill `cat /var/run/memlog.pid 2> /dev/null` 2> /dev/null || true
+# ExecStop=/bin/kill `cat /run/memlog.pid 2> /dev/null` 2> /dev/null || true
 # ExecReload=/var/myapp/bin/reload.sh
 Restart=no
-Type=forking
+Type=simple
+PIDFile=/run/memlog.pid
 
 [Install]
 WantedBy=multi-user.target
