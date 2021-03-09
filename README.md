@@ -1,9 +1,11 @@
 # Transfer_service_memlog
-メモリ監視サービスを転送する（どこへとは言わないが・・・）
+メモリ監視サービスと、ストレージ監視cron用shを転送する（どこへとは言わないが・・・）
 
 ## 手順概要
 
-### 修正箇所
+### メモリ監視
+
+#### 修正箇所
 
 1. memlog.shのログ出力パス
   - memlogファイルのパス修正
@@ -34,4 +36,26 @@ tail -f ${ログファイルパス}
 cd /etc/logrotate.d
 logrotate -dv memlog
 logrotate -f memlog
+```
+
+## ストレージの監視
+
+### 準備
+
+1. df_log.shの出力パスを修正する。
+2. ログにヘッダを作っておく
+
+### 適用コマンド
+
+```
+cp ./df_log.sh /opt/
+chmod 755 /opt/df_log.sh
+```
+
+```
+vi /etc/crontab
+```
+
+``` crontab
+*/15 *  * * * root sh /opt/df_log.sh
 ```
